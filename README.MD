@@ -12,11 +12,9 @@ Create a Docker container with a Linux server (Ubuntu or Alpine preferred) and i
 
 3. Push your React application to the remote repository on the server and verify that it is automatically deployed and running.
 
-Proposals will be evaluated based on the following criteria:
+Proposal Design:
 
-- Correctness
-- Simplicity
-- Documentation
+![Diagram](./assets/diagram-easy-one.png)
 
 Steps of our implementation:
 
@@ -82,8 +80,12 @@ We push the code to the remote repository on the server and verify that it is au
 docker-compose up
 ```
 
+![Evidence1](./assets/evidence-1.1.png)
+
 ```bash
 git add .
 git commit -m "Deploy"
 GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa' git push docker main
 ```
+
+![Evidence2](./assets/evidence-1.2.png)
