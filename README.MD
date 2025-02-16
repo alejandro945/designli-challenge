@@ -160,38 +160,40 @@ Flow Description
 
 1. Local Development Area
 
-local/staging-area: This is the developer's local working directory containing the source code of the project.
+- local/staging-area: This is the developer's local working directory containing the source code of the project.
 
-dev: The developer works in this environment, making changes and testing locally.
+- dev: The developer works in this environment, making changes and testing locally.
 
 2. SSH Authentication
 
-The developer uses a private-key for authentication when pushing code via SSH to the git-server.
+- The developer uses a private-key for authentication when pushing code via SSH to the git-server.
 
-The git-server holds an authorized_keys file that contains the public key of the developer, enabling secure SSH access.
+- The git-server holds an authorized_keys file that contains the public key of the developer, enabling secure SSH access.
 
 3. Pushing Changes
 
-The developer pushes changes to the git-server using:
+- The developer pushes changes to the git-server using:
 
+```bash
 git push
+```
 
-SSH communication is established over port 22.
+- SSH communication is established over port 22.
 
 4. Git Server
 
-The git-server is configured with a post-receive hook.
+- The git-server is configured with a post-receive hook.
 
-When the push is received, the post-receive hook is triggered to deploy the code to the remote-area directory.
+- When the push is received, the post-receive hook is triggered to deploy the code to the remote-area directory.
 
 5. Deployment Area
 
-remote-area: This is the directory on the server where the application is deployed.
+- remote-area: This is the directory on the server where the application is deployed.
 
 6. Continuous Integration (CI) Workflow
 
-Upon receiving new code, the post-receive hook triggers the following commands:
+- Upon receiving new code, the post-receive hook triggers the following commands:
 
-npm install: Installs the project dependencies.
+- npm install: Installs the project dependencies.
 
-npm run build: Builds the production version of the React application.
+- npm run build: Builds the production version of the React application.
