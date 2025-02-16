@@ -103,9 +103,9 @@ GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa' git push docker main
 4. Ensure that the deployment process remains automated, meaning that any push to the remote repository triggers a deployment without manual intervention.
 
 
-### User Flow Diagram Description
+## User Flow
 
-Overview
+#### Overview
 
 The diagram illustrates the user flow for accessing a web application served through a combination of Nginx, Ngrok, and a client service. This setup is particularly useful for local development environments exposed to the public internet.
 
@@ -148,11 +148,9 @@ Key Ports
 4040: Ngrok admin panel for traffic inspection.
 
 
-## Automated Deployment
+## Deployment Workflow
 
-Deployment Workflow
-
-Overview
+#### Overview
 
 This document describes the automated deployment workflow depicted in the diagram. The process leverages a Git-based deployment strategy using SSH authentication and a post-receive hook to automatically build and deploy a React application upon pushing changes to the remote repository.
 
