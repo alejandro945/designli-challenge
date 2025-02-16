@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e  # Fail on errors
+
+while read oldrev newrev refname; do
+    BRANCH=$(echo $refname | cut -d'/' -f3)
+    echo "Branch recibido: $BRANCH"
+
+    git --work-tree=/var/www/domain.com --git-dir=/var/repo/site.git checkout -f $BRANCH
+
+    cd /var/www/domain.com
+
+    if [ -f package.json ]; then
+        echo "Installing dependencies and building..."
+        npm install
+        export NODE_OPTIONS=--openssl-legacy-provider # Due to incompatibility with version of Node.js
+        echo "Building..."
+        npm run build
+        echo "Installing serve..."
+        npm install -g serve
+        echo "Stopping serve..."
+        pkill -f "serve -s build -l 3000"
+        echo "Serving..."
+        nohup serve -s build -l 3000 &
+    else
+        echo "ERROR: package.json not found"
+        exit 1
+    fi
+done

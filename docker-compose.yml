@@ -1,0 +1,9 @@
+services:
+  git-deploy-server:
+    build: .
+    ports:
+      - "2222:22"
+      - "3000:3000"
+    volumes:
+      - ./scripts/post-receive:/var/repo/site.git/hooks/post-receive
+      - ./www:/var/www/domain.com
