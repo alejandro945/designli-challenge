@@ -26,7 +26,8 @@ Steps of our implementation:
 
 3. Then we create the post-receive hook. This script is executed when code is pushed to the repository. It receives the code and copies it to the website directory. It also installs the dependencies and builds the React application.
 
-[!IMPORTANT] Ensure that the post-receive hook has the correct permissions to execute. You can do this by running chmod +x post-receive.
+> [!NOTE]
+> Ensure that the post-receive hook has the correct permissions to execute. You can do this by running chmod +x post-receive.
 
 ```bash
 chmod +x post-receive
