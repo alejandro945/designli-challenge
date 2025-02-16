@@ -68,6 +68,7 @@ export default App;
 We configure the remote repository on the server to point to the Docker container. We add the remote repository to the client application and push the code to the server.
 
 ```bash
+cd client
 git init
 git remote add docker ssh://docker@localhost:2222/var/repo/site.git
 git remote set-url docker "ssh://root@localhost:2222/var/repo/site.git" # Specify private key to git
@@ -90,3 +91,109 @@ GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa' git push docker main
 ```
 
 ![Evidence2](./assets/evidence-1.2.png)
+
+**The real challenge**
+
+1. Extend the previous setup by configuring an Nginx reverse proxy to serve the React application.
+
+2. Expose the reverse proxy publicly using ngrok.
+
+3. Use different containers in docker-compose.yml for frontend, nginx and ngrok.
+
+4. Ensure that the deployment process remains automated, meaning that any push to the remote repository triggers a deployment without manual intervention.
+
+
+### User Flow Diagram Description
+
+Overview
+
+The diagram illustrates the user flow for accessing a web application served through a combination of Nginx, Ngrok, and a client service. This setup is particularly useful for local development environments exposed to the public internet.
+
+![Evidence1](./assets/user-flow.png)
+
+Step-by-Step Flow
+
+1. User Access via DNS:
+
+A user accesses the application through a DNS-resolved address or the public URL provided by Ngrok.
+
+2. Port Forwarding (LAN-WAN):
+
+The user's request is forwarded from the local network to the appropriate services through port forwarding.
+
+3. Ngrok Service (4040 Admin Panel):
+
+Ngrok is employed to expose the local application to the public internet. The admin panel is available on localhost:4040 to monitor and inspect the traffic passing through the tunnel.
+
+4. Nginx Service (Port 80):
+
+Nginx acts as a reverse proxy, receiving incoming traffic and directing it to the appropriate internal services.
+
+5. Static Web App (Implemented):
+
+Nginx serves static files (e.g., React build output) from a directory to handle frontend requests.
+
+6. Web App Server (Proxy Traffic from 80 to 3000): **(Optional)**
+
+Nginx also proxies API or dynamic requests to the client service running on port 3000.
+
+7. Client Service (Port 3000): **(Optional)**
+
+This is the frontend development server running React, Vite, Next.js, or Angular.
+
+Key Ports
+
+80: Nginx serving frontend and proxying requests.
+
+4040: Ngrok admin panel for traffic inspection.
+
+
+## Automated Deployment
+
+Deployment Workflow
+
+Overview
+
+This document describes the automated deployment workflow depicted in the diagram. The process leverages a Git-based deployment strategy using SSH authentication and a post-receive hook to automatically build and deploy a React application upon pushing changes to the remote repository.
+
+![Evidence1](./assets/deploy-flow.png)
+
+Flow Description
+
+1. Local Development Area
+
+local/staging-area: This is the developer's local working directory containing the source code of the project.
+
+dev: The developer works in this environment, making changes and testing locally.
+
+2. SSH Authentication
+
+The developer uses a private-key for authentication when pushing code via SSH to the git-server.
+
+The git-server holds an authorized_keys file that contains the public key of the developer, enabling secure SSH access.
+
+3. Pushing Changes
+
+The developer pushes changes to the git-server using:
+
+git push
+
+SSH communication is established over port 22.
+
+4. Git Server
+
+The git-server is configured with a post-receive hook.
+
+When the push is received, the post-receive hook is triggered to deploy the code to the remote-area directory.
+
+5. Deployment Area
+
+remote-area: This is the directory on the server where the application is deployed.
+
+6. Continuous Integration (CI) Workflow
+
+Upon receiving new code, the post-receive hook triggers the following commands:
+
+npm install: Installs the project dependencies.
+
+npm run build: Builds the production version of the React application.
