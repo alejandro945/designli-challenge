@@ -15,12 +15,12 @@ while read oldrev newrev refname; do
         export NODE_OPTIONS=--openssl-legacy-provider # Due to incompatibility with version of Node.js
         echo "Building..."
         npm run build
-        echo "Installing serve..."
-        npm install -g serve
-        echo "Stopping serve..."
-        pkill -f "serve -s build -l 3000"
-        echo "Serving..."
-        nohup serve -s build -l 3000 &
+        #echo "Installing serve..."
+        #npm install -g serve
+        #echo "Stopping serve..."
+        #pkill -f "serve -s build -l 3000"
+        #echo "Serving..."
+        #nohup serve -s build -l 3000 &
     else
         echo "ERROR: package.json not found"
         exit 1
